@@ -1,0 +1,17 @@
+<html lang="en">
+
+<head>
+    {% if title %}
+    <title>{{ title }} - Noumenal Phenomena</title>
+    {% else %}
+    <title>Welcome to Noumenal Phenomena!</title>
+    {% endif %}
+</head>
+
+<body>
+    <div>Noumenal Nav: <a href="/index">Home</a></div>
+    <hr>
+    {% block content %}{% endblock %}
+</body>
+
+</html>
