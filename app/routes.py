@@ -1,4 +1,4 @@
-from flask import render_template, flash, redirect
+from flask import render_template, flash, redirect, url_for
 from app import app_var
 from app.forms import LoginForm
 
