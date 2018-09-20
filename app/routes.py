@@ -1,5 +1,7 @@
 from flask import render_template
 from app import app_var
+from app.forms import LoginForm
+
 
 @app_var.route('/')
 @app_var.route('/index')
@@ -7,7 +9,7 @@ def index():
     user = {'username': 'Coach Pie'}
     posts = [
         {
-            'author': {'username':'Orin'},
+            'author': {'username': 'Orin'},
             'body': 'A Crisp fall day in Seattle'
         },
         {
@@ -26,6 +28,12 @@ def index():
             'author': {'username': 'Brett'},
             'body': 'I love whiskey!'
         }
-        
+
     ]
     return render_template('index.html', title='Home', user=user, posts=posts)
+
+
+@app_var.route('/login')
+def login():
+    form = LoginForm()
+    return render_template('login.html', title='Sign In', form=form)
