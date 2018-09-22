@@ -76,9 +76,10 @@ def logout():
     return redirect(url_for('index'))
 
 
+# this decorator includes a <dynamic component>
 @app_var.route('/user/<username>')
 @login_required
-def user(username):
+def user(username):  # the dynamic component is passed into this function
     user = User.query.filter_by(username=username).first_or_404()
     posts = [
         {'author': user, 'body': 'Test post #1'},
