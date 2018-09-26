@@ -129,3 +129,10 @@ def unfollow(username):
     db.session.commit()
     flash("Your aren't following {}.".format(username))
     return redirect(url_for('user', username=username))
+
+
+@app_var.route('/explore')
+@login_required
+def explore():
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', title='Explore', posts=posts)
