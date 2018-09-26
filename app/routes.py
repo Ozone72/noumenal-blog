@@ -1,41 +1,26 @@
 from flask import render_template, flash, redirect, url_for, request
 from werkzeug.urls import url_parse
 from app import app_var, db
-from app.forms import LoginForm, RegistrationForm, EditProfileForm
+from app.forms import LoginForm, RegistrationForm, EditProfileForm, PostForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User
+from app.models import User, Post
 from datetime import datetime
 
 
-@app_var.route('/')
-@app_var.route('/index')
+@app_var.route('/', methods=['GET', 'POST'])
+@app_var.route('/index', methods=['GET', 'POST'])
 @login_required
 def index():
-    user = {'username': 'Coach Pie'}
-    posts = [
-        {
-            'author': {'username': 'Orin'},
-            'body': 'A Crisp fall day in Seattle'
-        },
-        {
-            'author': {'username': 'Vincent'},
-            'body': 'Another day at werk...'
-        },
-        {
-            'author': {'username': 'Josh'},
-            'body': 'Money for nothing and my chicks for free :)'
-        },
-        {
-            'author': {'username': 'Jed'},
-            'body': 'MY band'
-        },
-        {
-            'author': {'username': 'Brett'},
-            'body': 'I love whiskey!'
-        }
-
-    ]
-    return render_template('index.html', title='Home', posts=posts)
+    # user = {'username': 'Coach Pie'}
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(body=form.post.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your brain-vomit is now live to the whole commune!')
+        return redirect(url_for('index'))
+    posts = current_user.followed_posts().all()
+    return render_template('index.html', title='Home', form=form, posts=posts)
 
 
 @app_var.route('/login', methods=['GET', 'POST'])
