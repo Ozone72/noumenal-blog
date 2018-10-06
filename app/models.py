@@ -58,7 +58,7 @@ class User(UserMixin, db.Model):
                             algorithms=['HS256'])['reset_password']
 
         except:
-            return None
+            return
         return User.query.get(id)
 
     def avatar(self, size):
