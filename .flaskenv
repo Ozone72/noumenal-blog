@@ -1,3 +1,2 @@
 FLASK_APP=noumenal.py
-
 FLASK_DEBUG=0
